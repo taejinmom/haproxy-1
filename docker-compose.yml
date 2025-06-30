@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  web1:
+    image: nginx:alpine
+    container_name: web1
+    volumes:
+      - ./index1.html:/usr/share/nginx/html/index.html:ro
+
+  web2:
+    image: nginx:alpine
+    container_name: web2
+    volumes:
+      - ./index2.html:/usr/share/nginx/html/index.html:ro
+
+  haproxy:
+    build: .
+    container_name: haproxy
+    ports:
+      - "8080:80"
+      - "8404:8404"
+    depends_on:
+      - web1
+      - web2
